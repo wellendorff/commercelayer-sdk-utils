@@ -4,6 +4,7 @@ import { retrieveAll } from '../src'
 import { initialize, cl } from '../test/common'
 import { updateAll } from '../src/all'
 import exp from 'constants'
+import { sleep } from '../src/common'
 
 
 
@@ -41,8 +42,8 @@ describe('sdk-utils.all suite', () => {
 		if (updRes.errors > 0) expect(updRes.processed + updRes.errors).toBe(updRes.total)
 		else expect(updRes.processed).toBe(updRes.total)
 
-		const skus = await retrieveAll<Sku>('skus')
-		for (const s of skus) expect(s.reference_origin).toBe(reference_origin)
+		const skus = await cl.skus.list({ filters: { reference_origin_eq: reference_origin }})
+		expect(skus.recordCount).toBe(updRes.total)
 
 	})
 
