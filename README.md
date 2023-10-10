@@ -80,7 +80,11 @@ const skus = await retrieveAll<Sku>('skus')
 This function allows to modify a set of resources of a specific type, using a filter to identify them.
 
 ```js
+const skuData = { reference_origin: 'legacy-system-0' }
 
+const filters = { created_at_lt: '2023-01-01' }
+
+const updateResult = await updateAll('skus', skuData, { filters })
 ```
 
 ---

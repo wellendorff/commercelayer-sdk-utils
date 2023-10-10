@@ -19,7 +19,7 @@ const newSku: SkuUpdate = {
   reference_origin: 'new-reference-origin'
 }
 
-  const skus = await updateAll<SkuUpdate>('skus', newSku, { fields: ['reference_origin']})
+  const skus = await updateAll('skus', newSku, { fields: ['reference_origin']})
 
   console.log(skus)
  
