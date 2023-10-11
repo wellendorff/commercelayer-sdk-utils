@@ -3,8 +3,6 @@ import type { Sku } from '@commercelayer/sdk'
 import { retrieveAll } from '../src'
 import { initialize, cl } from '../test/common'
 import { updateAll } from '../src/all'
-import exp from 'constants'
-import { sleep } from '../src/common'
 
 
 
