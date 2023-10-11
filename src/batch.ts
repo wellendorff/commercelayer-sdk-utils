@@ -206,7 +206,11 @@ const executeBatch = async (batch: Batch): Promise<BatchResult> => {
 }
 
 
+const batch = {
+	executeBatch
+}
 
-export { executeBatch }
+
+export { batch, executeBatch }
 
 export type { Batch, Task }

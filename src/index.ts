@@ -3,11 +3,14 @@
 export { default, CommerceLayerUtils } from './init'
 
 // All
-export { retrieveAll } from './all'
+export { all, retrieveAll, updateAll } from './all'
 
 // Batch
-export { executeBatch } from './batch'
+export { batch, executeBatch } from './batch'
 export type { Batch, Task, TaskResult, BatchOptions, InvalidTokenError } from './batch'
 
-// Export
+// Exports
 export { exportz, prepareExports, exportsToBatchTasks } from './exports'
+
+// Webhooks
+export { webhooks, denormalizePayload } from './webhooks'

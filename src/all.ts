@@ -132,3 +132,10 @@ export const updateAll = async <U extends Omit<ResourceUpdate, 'id'>>(resourceTy
 	return result
 
 }
+
+
+
+export const all = {
+	retrieveAll,
+	updateAll
+}
