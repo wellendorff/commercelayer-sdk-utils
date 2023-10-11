@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.1.0...v1.1.1) (2023-10-11)
+
+
+### Bug Fixes
+
+* **doc:** add webhooks.denormalizePayload documentation ([69b9981](https://github.com/commercelayer/commercelayer-sdk-utils/commit/69b9981360f570c66f8a9771e1184c22bbf75814))
+
 # [1.1.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.0.0...v1.1.0) (2023-10-11)
 
 
