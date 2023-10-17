@@ -13,4 +13,4 @@ export type { Batch, Task, TaskResult, BatchOptions, InvalidTokenError } from '.
 export { exportz, prepareExports, exportsToBatchTasks } from './exports'
 
 // Webhooks
-export { webhooks, denormalizePayload } from './webhooks'
+export { webhooks, denormalizePayload } from './resources/webhooks'
