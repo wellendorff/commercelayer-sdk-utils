@@ -1,9 +1,9 @@
 
 import type { ExportCreate } from '@commercelayer/sdk'
-import { prepareExports } from '../src'
-import { exportsToBatchTasks } from '../src/exports'
-import { initialize, cl } from '../test/common'
-import { Task, TaskResult, TemplateTask } from '../src/batch'
+import { splitExport, exportsToBatchTasks } from '../../lib/cjs'
+import type { Task, TaskResult } from '../../lib/cjs'
+import { initialize, cl } from '../../test/common'
+import { TemplateTask } from '../../lib/cjs/batch'
 
 
 
@@ -29,7 +29,7 @@ describe('sdk-utils.exports suite', () => {
 			resource_type: 'customers'
 		}
 
-		const exports = await prepareExports(expCreate, exportMaxSize)
+		const exports = await splitExport(expCreate, exportMaxSize)
 
 		expect(exports.length).toBe(expectedExports)
 
