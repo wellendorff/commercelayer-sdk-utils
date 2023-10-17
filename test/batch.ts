@@ -1,6 +1,5 @@
 import CommerceLayer, { type CustomerCreate } from "@commercelayer/sdk"
-import CommerceLayerUtils, { executeBatch } from '../src'
-import type { Batch, InvalidTokenError, Task, TaskResult } from "../src"
+import CommerceLayerUtils, { type Batch, type InvalidTokenError, type Task, type TaskResult, executeBatch } from '../lib/cjs'
 
 
 const organization = 'cli-test-org'

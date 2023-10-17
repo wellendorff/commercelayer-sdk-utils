@@ -32,7 +32,7 @@ type TokenCallback = (error: InvalidTokenError, task: Task) => Promise<string> |
 
 export type TemplateTask = Partial<Task>
 
-type Task = {
+export type Task = {
 	label?: string
 	resourceType: ResourceTypeLock
 	operation: TaskOperation
@@ -83,7 +83,7 @@ export type BatchOptions = {
 }
 
 
-type Batch = {
+export type Batch = {
 	tasks: Task[]
 	rateLimits?: Partial<Record<ResourceTypeLock, Partial<Record<TaskOperation, RateLimitInfo>>>>
 	running?: boolean
@@ -155,7 +155,7 @@ const resolvePlaceholders = (task: Task, last: TaskResult): void => {
 }
 
 
-const executeBatch = async (batch: Batch): Promise<BatchResult> => {
+export const executeBatch = async (batch: Batch): Promise<BatchResult> => {
 
 	const cl = CommerceLayerUtils().sdk
 	const rrr = cl.addRawResponseReader({ headers: true })
@@ -206,11 +206,6 @@ const executeBatch = async (batch: Batch): Promise<BatchResult> => {
 }
 
 
-const batch = {
-	executeBatch
+export const batch = {
+	execute: executeBatch
 }
-
-
-export { batch, executeBatch }
-
-export type { Batch, Task }

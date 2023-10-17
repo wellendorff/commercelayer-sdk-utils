@@ -1,8 +1,7 @@
 
 import type { Sku } from '@commercelayer/sdk'
-import { retrieveAll } from '../src'
+import { retrieveAll, updateAll } from '../lib/cjs'
 import { initialize, cl } from '../test/common'
-import { updateAll } from '../src/all'
 
 
 
@@ -35,7 +34,7 @@ describe('sdk-utils.all suite', () => {
 		const reference_origin = String(Date.now())
 		const sku = { reference_origin }
 
-		const updRes = await updateAll('skus', sku)
+		const updRes = await updateAll('skus', sku, { filters: { reference_eq: 'sdk-test-org' } })
 
 		if (updRes.errors > 0) expect(updRes.processed + updRes.errors).toBe(updRes.total)
 		else expect(updRes.processed).toBe(updRes.total)

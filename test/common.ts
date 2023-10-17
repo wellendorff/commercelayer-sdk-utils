@@ -3,8 +3,8 @@ import getToken from './token'
 import CommerceLayer, { CommerceLayerClient } from '@commercelayer/sdk'
 import dotenv from 'dotenv'
 import { inspect } from 'util'
-import { CommerceLayerUtils } from '../src'
-import { CommerceLayerUtilsConfig } from '../src/init'
+import { CommerceLayerUtils } from '../lib/cjs'
+import { CommerceLayerUtilsConfig } from '../lib/cjs/init'
 
 
 dotenv.config()

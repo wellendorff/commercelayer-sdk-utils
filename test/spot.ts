@@ -1,6 +1,5 @@
-import CommerceLayer, { AddressCreate, Customer, CustomerCreate, CustomerUpdate as SkuUpdate, ExportCreate } from "@commercelayer/sdk"
-import CommerceLayerUtils, { prepareExports, exportz, exportsToBatchTasks, retrieveAll } from '../src'
-import { updateAll } from "../src/all"
+import CommerceLayer, { SkuUpdate } from "@commercelayer/sdk"
+import { CommerceLayerUtils, updateAll } from "../lib/cjs"
 
 
 
@@ -14,15 +13,15 @@ const utils = CommerceLayerUtils(cl)
 
 const test = async (): Promise<void> => {
 
-const newSku: SkuUpdate = {
-  id: '',
-  reference_origin: 'new-reference-origin'
-}
+  const newSku: SkuUpdate = {
+    id: '',
+    reference_origin: 'new-reference-origin'
+  }
 
-  const skus = await updateAll('skus', newSku, { fields: ['reference_origin']})
+  const skus = await updateAll('skus', newSku, { fields: ['reference_origin'] })
 
   console.log(skus)
- 
+
 }
 
 

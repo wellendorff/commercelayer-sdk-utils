@@ -1,8 +1,9 @@
 
-import { SdkError } from '@commercelayer/sdk'
+import type { SdkError } from '@commercelayer/sdk'
 import { currentAccessToken, initClient, initialize, cl } from '../test/common'
-import { Batch, InvalidTokenError, Task, TaskResult, executeBatch } from '../src/batch'
-import { Resource } from '@commercelayer/sdk/lib/cjs/resource'
+import { executeBatch } from '../lib/cjs'
+import type { Batch, InvalidTokenError, Task, TaskResult } from '../lib/cjs'
+import type { Resource } from '@commercelayer/sdk/lib/cjs/resource'
 
 
 

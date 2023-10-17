@@ -31,7 +31,18 @@ export const headerRateLimits = (headers?: HeadersObj): RateLimitHeader => {
 }
 
 
-export const computeRateLimits = (rateLimit: RateLimitHeader, resourceType: string | Task, allRequests: number | Task[]): RateLimitInfo => {
+/*
+  "erl_oauth_limit_live" : 30,
+  "erl_burst_limit_uncachable_live" : 50,
+  "erl_burst_limit_uncachable_test" : 25,
+  "erl_burst_limit_cachable_live" : 250,
+  "erl_burst_limit_cachable_test" : 125,
+  "erl_average_limit_uncachable_live" : 200,
+  "erl_average_limit_uncachable_test" : 100,
+  "erl_average_limit_cachable_live" : 1000,
+  "erl_average_limit_cachable_test" : 500
+ */
+export const computeRateLimits = (rateLimit: RateLimitHeader, resourceType: string | Task, allRequests?: number | Task[]): RateLimitInfo => {
 
 	const BURST_INTERVAL = 10 * 1000
 	const BURST_MAX_REQUESTS = 25
@@ -45,12 +56,14 @@ export const computeRateLimits = (rateLimit: RateLimitHeader, resourceType: stri
 		delay: 0
 	}
 
+	const allRequests_ = allRequests || (rateLimit.limit * 2)	// A number over the limit
+
 	if (rateLimit) {
-		const totalRequests = (typeof allRequests === 'number')? allRequests : allRequests.length
+		const totalRequests = (typeof allRequests_ === 'number')? allRequests_ : allRequests_.length
 		rli.requests = totalRequests
 		if (totalRequests >= rateLimit.limit) rli.delay = Math.ceil((rateLimit.interval * 1000) / rateLimit.limit)
 		else {
-			const resourceRequests = (typeof allRequests === 'number')? totalRequests : allRequests.filter(t => (t.resourceType === resType)).length
+			const resourceRequests = (typeof allRequests_ === 'number')? totalRequests : allRequests_.filter(t => (t.resourceType === resType)).length
 			if (resourceRequests >= BURST_MAX_REQUESTS) rli.delay = Math.ceil(BURST_INTERVAL / BURST_MAX_REQUESTS)
 		}
 	}
