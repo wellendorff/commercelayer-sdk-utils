@@ -1,3 +1,12 @@
+# [1.2.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.1.1...v1.2.0) (2023-10-17)
+
+
+### Features
+
+* **core:** add function to split cleanups ([d0d539a](https://github.com/commercelayer/commercelayer-sdk-utils/commit/d0d539acf17dc866e23c4e7f54d6a5f5bb6a8149))
+* **core:** add function to split exports ([a33f6b1](https://github.com/commercelayer/commercelayer-sdk-utils/commit/a33f6b1d557fa025320dd18e604d9f3abc6fb2b4))
+* **core:** add webhooks.denormalizePayload ([e97b11e](https://github.com/commercelayer/commercelayer-sdk-utils/commit/e97b11e425106d067908bdf793a4888c59b4d1a1))
+
 ## [1.1.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.1.0...v1.1.1) (2023-10-11)
 
 
