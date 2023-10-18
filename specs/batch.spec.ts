@@ -1,9 +1,10 @@
 
-import type { SdkError } from '@commercelayer/sdk'
+import type { CustomerUpdate, SdkError, Sku } from '@commercelayer/sdk'
 import { currentAccessToken, initClient, initialize, cl } from '../test/common'
 import { executeBatch } from '../lib/cjs'
 import type { Batch, InvalidTokenError, Task, TaskResult } from '../lib/cjs'
 import type { Resource } from '@commercelayer/sdk/lib/cjs/resource'
+import { TaskResourceParam, TaskResourceResult } from '../lib/cjs/batch'
 
 
 
@@ -122,7 +123,7 @@ describe('sdk-utils.batch suite', () => {
 	})
 
 
-	it('batch.refresh_token', async () => {
+	it('batch.tokenCallback', async () => {
 
 		const tasksNumber = 2
 		const tasks: Task[] = []
@@ -162,7 +163,7 @@ describe('sdk-utils.batch suite', () => {
 	})
 
 
-	it('batch.error.callback', async () => {
+	it('batch.errorCallback', async () => {
 
 		const tasksNumber = 3
 		const errorTask = 2
@@ -209,7 +210,7 @@ describe('sdk-utils.batch suite', () => {
 	})
 
 
-	it('batch.success.callback', async () => {
+	it('batch.successCallback', async () => {
 
 		const tasksNumber = 3
 		const errorTask = 2
@@ -242,6 +243,52 @@ describe('sdk-utils.batch suite', () => {
 		}
 
 		jest.resetAllMocks()
+
+	})
+
+
+	it('batch.prepareResource', async () => {
+
+		const tasksNumber = 3
+		const tasks: Task[] = []
+
+		let globalId: string = ''
+
+		tasks.push({
+			operation: 'create',
+			resourceType: 'customers',
+			resource: {
+				email: `batc-customer-${Date.now()}@sdk-test.org`
+			}
+		})
+
+		tasks.push({
+			operation: 'update',
+			resourceType: 'customers',
+			resource: { id: 'fake-id' },
+			prepareResource: (res: TaskResourceParam, last: TaskResourceResult): TaskResourceParam => {
+				const r = res as CustomerUpdate
+				const id = Array.isArray(last)? (last.length? last[0] : undefined) : last.id
+				const mod = {
+					...r,
+					id,
+					reference: id
+				}
+				return mod
+			},
+			onSuccess: {
+				callback: (output: TaskResult, task: Task): void => {
+					if (output) globalId = (output as Resource).id
+				}
+			}
+		})
+
+		await executeBatch({ tasks })
+
+		const customer = await cl.customers.retrieve(globalId)
+		expect(customer.reference).toBe(globalId)
+
+		console.log(globalId)
 
 	})
 

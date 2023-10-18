@@ -97,7 +97,7 @@ export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobT
 }
 
 
-export const jobsToBatchTasks = (jobs: ResourceJob[], jobType: JobOutputType, baseTask?: TemplateTask): Array<Task & { operation: 'create' }> => {
+export const jobsToBatchTasks = (jobs: ResourceJob[], jobType: JobType, baseTask?: TemplateTask): Array<Task & { operation: 'create' }> => {
 
 	return jobs.map(job => {
 
