@@ -1,9 +1,10 @@
 
-import type { SdkError } from '@commercelayer/sdk'
+import type { CustomerUpdate, SdkError, Sku } from '@commercelayer/sdk'
 import { currentAccessToken, initClient, initialize, cl } from '../test/common'
 import { executeBatch } from '../src'
 import type { Batch, InvalidTokenError, Task, TaskResult } from '../src'
 import type { Resource } from '@commercelayer/sdk/lib/cjs/resource'
+import type { TaskResourceParam, TaskResourceResult } from '../lib/cjs/batch'
 
 
 
@@ -122,7 +123,7 @@ describe('sdk-utils.batch suite', () => {
 	})
 
 
-	it('batch.refresh_token', async () => {
+	it('batch.tokenCallback', async () => {
 
 		const tasksNumber = 2
 		const tasks: Task[] = []
@@ -162,7 +163,7 @@ describe('sdk-utils.batch suite', () => {
 	})
 
 
-	it('batch.error.callback', async () => {
+	it('batch.errorCallback', async () => {
 
 		const tasksNumber = 3
 		const errorTask = 2
@@ -209,10 +210,9 @@ describe('sdk-utils.batch suite', () => {
 	})
 
 
-	it('batch.success.callback', async () => {
+	it('batch.successCallback', async () => {
 
 		const tasksNumber = 3
-		const errorTask = 2
 		const tasks: Task[] = []
 
 		function successCallback(output: TaskResult, task: Task): void {
@@ -242,6 +242,87 @@ describe('sdk-utils.batch suite', () => {
 		}
 
 		jest.resetAllMocks()
+
+	})
+
+
+	it('batch.prepareResource', async () => {
+
+		const fixedId = 'nBrBhrAmqn'
+		let retrieveId: string = ''
+		let listId: string | undefined = ''
+
+		const prepareResource = (res: TaskResourceParam, last: TaskResourceResult): TaskResourceParam => {
+			const isList = Array.isArray(last)
+			const id =isList? last.first()?.id : last.id
+			const mod = {
+				...res,
+				id,
+				reference: id,
+				reference_origin: 'list_' + isList
+			}
+			return mod
+		}
+
+		const callback = (output: TaskResult, task: Task): void => {
+			if (output) {
+				if (Array.isArray(output)) listId = output.first()?.id
+				else retrieveId = (output as Resource).id
+			}
+		}
+
+
+		const tasks: Task[] = []
+
+		tasks.push({
+			operation: 'create',
+			resourceType: 'customers',
+			resource: {
+				email: `batch-customer-${Date.now()}@sdk-test.org`
+			},
+			onSuccess: { callback }
+		})
+
+		tasks.push({
+			operation: 'update',
+			resourceType: 'customers',
+			resource: { id: 'take-id-from-last-retrieve-result' },
+			prepareResource
+		})
+
+		tasks.push({
+			operation: 'list',
+			resourceType: 'customers',
+			params: { sort: { created_at: 'asc' } },
+			onSuccess: { callback }
+		})
+
+		tasks.push({
+			operation: 'update',
+			resourceType: 'customers',
+			resource: { id: 'take-id-from-last-list-result' },
+			prepareResource
+		})
+
+		tasks.push({
+			operation: 'update',
+			resourceType: 'customers',
+			resource: { id: fixedId },
+			prepareResource: (res: TaskResourceParam, last: TaskResourceResult) => {
+				(res as Resource).reference = (last as Resource).id
+			}
+		})
+
+		await executeBatch({ tasks })
+
+		const c1 = await cl.customers.retrieve(retrieveId)
+		expect(c1.reference).toBe(retrieveId)
+
+		const c2 = await cl.customers.retrieve(listId)
+		expect(c2.reference).toBe(listId)
+
+		const c3 = await cl.customers.retrieve(fixedId)
+		expect(c3.reference = c2.id)
 
 	})
 
