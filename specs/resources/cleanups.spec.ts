@@ -1,8 +1,11 @@
 
 import type { CleanupCreate } from '@commercelayer/sdk'
-import { splitCLeanup, cleanupsToBatchTasks, type Task, type TaskResult } from '../../lib/cjs'
+import { splitCLeanup, cleanupsToBatchTasks, type Task, type TaskResult } from '../../src'
 import { initialize, cl } from '../../test/common'
-import { TemplateTask } from '../../lib/cjs/batch'
+import { TemplateTask } from '../../src/batch'
+
+
+const resourceType = 'skus'
 
 
 
@@ -20,15 +23,15 @@ describe('sdk-utils.cleanups suite', () => {
 
 	it('cleanups.split', async () => {
 
-		const cleanupMaxSize = 100
-		const customersCount = await cl.customers.count()
-		const expectedCleanups = Math.ceil(customersCount / cleanupMaxSize)
+		const cleanupMaxSize = 30
+		const resourceCount = await cl[resourceType].count()
+		const expectedCleanups = Math.ceil(resourceCount / cleanupMaxSize)
 		
 		const clpCreate = {
-			resource_type: 'customers'
+			resource_type: resourceType
 		}
 
-		const cleanups = await splitCLeanup(clpCreate, cleanupMaxSize)
+		const cleanups = await splitCLeanup(clpCreate, { size: cleanupMaxSize, delay: 700 })
 
 		expect(cleanups.length).toBe(expectedCleanups)
 
@@ -40,10 +43,18 @@ describe('sdk-utils.cleanups suite', () => {
 				expect(clp.filters['id_gt']).toBeUndefined()
 				expect(clp.filters['id_lteq']).toBeDefined()
 			} else {
-				const clpPre = cleanups[i-1]
-				if (!clpPre.filters) clpPre.filters = {}
-				expect(clp.filters['id_gt']).toBe(clpPre.filters['id_lteq'])
-				expect(clp.filters['id_gt']).not.toBe(clp.filters['id_lteq'])
+				if (i < cleanups.length-1 ){
+					const clpPre = cleanups[i-1]
+					if (!clpPre.filters) clpPre.filters = {}
+					expect(clp.filters['id_gt']).toBe(clpPre.filters['id_lteq'])
+					expect(clp.filters['id_gt']).not.toBe(clp.filters['id_lteq'])
+				} else
+				if (i === cleanups.length-1 ) {
+					const clpPre = cleanups[i-1]
+					if (!clpPre.filters) clpPre.filters = {}
+					expect(clp.filters['id_gt']).toBe(clpPre.filters['id_lteq'])
+					expect(clp.filters['id_lteq']).toBeUndefined()
+				}
 			}
 		}
 
@@ -53,9 +64,9 @@ describe('sdk-utils.cleanups suite', () => {
 	it('cleanups.toBatchTasks', async () => {
 
 		const cleanups: CleanupCreate[] = [
-			{ resource_type: 'customers' },
-			{ resource_type: 'customers' },
-			{ resource_type: 'customers' }
+			{ resource_type: resourceType },
+			{ resource_type: resourceType },
+			{ resource_type: resourceType }
 		]
 
 		const task: TemplateTask = {

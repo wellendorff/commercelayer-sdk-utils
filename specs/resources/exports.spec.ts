@@ -1,10 +1,12 @@
 
 import type { ExportCreate } from '@commercelayer/sdk'
-import { splitExport, exportsToBatchTasks } from '../../lib/cjs'
-import type { Task, TaskResult } from '../../lib/cjs'
+import { splitExport, exportsToBatchTasks } from '../../src'
+import type { Task, TaskResult } from '../../src'
 import { initialize, cl } from '../../test/common'
-import { TemplateTask } from '../../lib/cjs/batch'
+import { TemplateTask } from '../../src/batch'
 
+
+const resourceType = 'prices'
 
 
 beforeAll(async () => {
@@ -21,15 +23,15 @@ describe('sdk-utils.exports suite', () => {
 
 	it('exports.split', async () => {
 
-		const exportMaxSize = 100
-		const customersCount = await cl.customers.count()
-		const expectedExports = Math.ceil(customersCount / exportMaxSize)
+		const exportMaxSize = 30
+		const resourceCount = await cl[resourceType].count()
+		const expectedExports = Math.ceil(resourceCount / exportMaxSize)
 		
 		const expCreate = {
-			resource_type: 'customers'
+			resource_type: resourceType
 		}
 
-		const exports = await splitExport(expCreate, exportMaxSize)
+		const exports = await splitExport(expCreate, { size: exportMaxSize, delay: 700 })
 
 		expect(exports.length).toBe(expectedExports)
 
@@ -41,10 +43,21 @@ describe('sdk-utils.exports suite', () => {
 				expect(exp.filters['id_gt']).toBeUndefined()
 				expect(exp.filters['id_lteq']).toBeDefined()
 			} else {
-				const expPre = exports[i-1]
-				if (!expPre.filters) expPre.filters = {}
-				expect(exp.filters['id_gt']).toBe(expPre.filters['id_lteq'])
-				expect(exp.filters['id_gt']).not.toBe(exp.filters['id_lteq'])
+				if (i === exports.length-1) {
+					console.log(exp)
+					const expPre = exports[i-1]
+					if (!expPre.filters) expPre.filters = {}
+					expect(exp.filters['id_gt']).toBe(expPre.filters['id_lteq'])
+					expect(exp.filters['id_lteq']).toBeUndefined()
+				} else 
+				if (i < exports.length-1) {
+					console.log(i)
+					console.log(exp)
+					const expPre = exports[i-1]
+					if (!expPre.filters) expPre.filters = {}
+					expect(exp.filters['id_gt']).toBe(expPre.filters['id_lteq'])
+					expect(exp.filters['id_gt']).not.toBe(exp.filters['id_lteq'])
+				}
 			}
 		}
 
@@ -54,9 +67,9 @@ describe('sdk-utils.exports suite', () => {
 	it('exports.toBatchTasks', async () => {
 
 		const exports: ExportCreate[] = [
-			{ resource_type: 'customers' },
-			{ resource_type: 'customers' },
-			{ resource_type: 'customers' }
+			{ resource_type: resourceType },
+			{ resource_type: resourceType },
+			{ resource_type: resourceType }
 		]
 
 		const task: TemplateTask = {

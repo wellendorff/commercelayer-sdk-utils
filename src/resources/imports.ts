@@ -1,6 +1,6 @@
 import type { Import, ImportCreate } from "@commercelayer/sdk"
 import type { Task, TemplateTask } from "../batch"
-import { type ResourceJobInput, splitInputJob, jobsToBatchTasks } from "../jobs"
+import { splitInputJob, jobsToBatchTasks, type JobOptions } from "../jobs"
 
 
 
@@ -8,13 +8,13 @@ export type ImportResult = Import
 
 
 
-export const splitImport = (imp: ImportCreate, impSize?: number): ImportCreate[] => {
-	return splitInputJob<ImportCreate>(imp, 'imports', impSize)
+export const splitImport = (imp: ImportCreate, options?: JobOptions): ImportCreate[] => {
+	return splitInputJob<ImportCreate>(imp, 'imports', options)
 }
 
 
 export const importsToBatchTasks = (imports: ImportCreate[], baseTask?: TemplateTask): Array<Task & { operation: 'create' }> => {
-	return jobsToBatchTasks(imports as ResourceJobInput[], 'imports',  baseTask)
+	return jobsToBatchTasks(imports, 'imports',  baseTask)
 }
 
 

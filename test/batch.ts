@@ -1,6 +1,5 @@
 import CommerceLayer, { type CustomerCreate } from "@commercelayer/sdk"
-import CommerceLayerUtils, { type Batch, type InvalidTokenError, type Task, type TaskResult, executeBatch } from '../lib/cjs'
-
+import CommerceLayerUtils, { type Batch, type InvalidTokenError, type Task, type TaskResult, executeBatch } from '../src'
 
 const organization = 'cli-test-org'
 const accessToken = 'pippo'

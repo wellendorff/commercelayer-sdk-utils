@@ -1,9 +1,9 @@
 
 import type { ImportCreate } from '@commercelayer/sdk'
-import { importsToBatchTasks, splitImport } from '../../lib/cjs'
-import type { Task, TaskResult } from '../../lib/cjs'
+import { importsToBatchTasks, splitImport } from '../../src'
+import type { Task, TaskResult } from '../../src'
 import { initialize } from '../../test/common'
-import { TemplateTask } from '../../lib/cjs/batch'
+import { TemplateTask } from '../../src/batch'
 
 
 
@@ -35,7 +35,7 @@ describe('sdk-utils.imports suite', () => {
 			inputs
 		  }
 		
-		  const imports = splitImport(ic, impSize)
+		  const imports = splitImport(ic, { size: impSize })
 
 		  expect(imports.length).toBe(Math.ceil(numInputs / impSize))
 		  for (let i = 1; i <= imports.length; i++) {

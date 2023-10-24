@@ -10,7 +10,7 @@
     "build": "tsc -b tsconfig.json tsconfig.esm.json --verbose",
     "start": "ts-node src/index.ts",
     "prepare": "npm run build",
-    "test": "pnpm build & jest",
+    "test": "jest",
     "test-local": "ts-node test/spot.ts",
     "coverage": "jest --coverage",
     "size": "size-limit",

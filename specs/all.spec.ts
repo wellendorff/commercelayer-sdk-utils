@@ -1,6 +1,6 @@
 
 import type { Sku } from '@commercelayer/sdk'
-import { retrieveAll, updateAll } from '../lib/cjs'
+import { retrieveAll, updateAll } from '../src'
 import { initialize, cl } from '../test/common'
 
 
