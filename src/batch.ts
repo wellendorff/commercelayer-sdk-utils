@@ -14,8 +14,9 @@ retrieveAll:	OK, list all resources with pagination, zero offset and token refre
 
 export type TaskOperation = 'retrieve' | 'list' | 'create' | 'update' | 'delete'
 
-export type TaskResourceResult = Resource | Resource[]
-export type TaskResult = TaskResourceResult | void
+export type TaskResourceParam = ResourceId | ResourceCreate | ResourceUpdate
+export type TaskResourceResult = Resource | ListResponse<Resource>
+export type TaskResult = TaskResourceResult | undefined
 
 
 export class InvalidTokenError extends Error {
@@ -31,27 +32,27 @@ export type SuccessCallback = (output: TaskResult, task: Task) => Promise<void> 
 export type FailureCallback = (error: SdkError, task: Task) => Promise<boolean> | boolean
 export type TokenCallback = (error: InvalidTokenError, task: Task) => Promise<string> | string
 
-export type TaskResourceParam = string | ResourceId | Resource | Record<string, any>
-export type PrepareResourceCallback = (resource: TaskResourceParam, last: TaskResourceResult) => Promise<TaskResourceParam> | TaskResourceParam
+type PrepareResourceResult = TaskResourceParam | undefined
+export type PrepareResourceCallback = (resource: TaskResourceParam, last: TaskResourceResult) => Promise<PrepareResourceResult> | PrepareResourceResult
 
 export type TemplateTask = Partial<Task>
 
 type CreateTask = CRUDTask & {
 	resourceType: CreatableResourceType,
 	operation: 'create',
-	resource: ResourceCreate & Record<string, any>
+	resource: ResourceCreate
 }
 
 type UpdateTask = CRUDTask & {
 	resourceType: UpdatableResourceType,
 	operation: 'update',
-	resource: ResourceUpdate & Record<string, any>
+	resource: ResourceUpdate
 }
 
 type DeleteTask = CRUDTask & {
 	resourceType: DeletableResourceType,
 	operation: 'delete',
-	resource: string | ResourceId
+	resource: ResourceId
 }
 
 type ListTask = {
@@ -63,13 +64,13 @@ type ListTask = {
 type RetrieveTask = CRUDTask & {
 	resourceType: RetrievableResourceType,
 	operation: 'retrieve',
-	resource: string | ResourceId
+	resource: ResourceId
 }
 
 type CRUDTask = {
 	resourceType: ResourceTypeLock
 	operation: 'create' | 'retrieve' | 'update' | 'delete'
-	resource: string | Record<string, any>
+	resource: Record<string, any>
 	prepareResource?: PrepareResourceCallback
 }
 
@@ -137,7 +138,7 @@ const taskRateLimit = (batch: Batch, task: Task, info?: RateLimitInfo): RateLimi
 const executeTask = async (cl: CommerceLayerClient, task: Task, options: BatchOptions = {}): Promise<TaskResult> => {
 
 	const client = cl[task.resourceType]
-	let out: TaskResult = undefined
+	let out: TaskResult
 
 	try {
 
@@ -188,8 +189,7 @@ const executeTask = async (cl: CommerceLayerClient, task: Task, options: BatchOp
 }
 
 
-const resolvePlaceholders: PrepareResourceCallback = <T extends TaskResourceParam>(resource: T, last: TaskResult): T => {
-	return resource
+const resolvePlaceholders: PrepareResourceCallback = (resource: TaskResourceParam, last: TaskResourceResult): undefined => {
 	/*
 	if (!last) return
 	let lastResult: Resource
@@ -221,7 +221,7 @@ export const executeBatch = async (batch: Batch): Promise<BatchResult> => {
 	}
 
 	let runningIndex = -1
-	let lastResult: TaskResult = undefined
+	let lastResult: TaskResult
 	for (const task of batch.tasks) {
 
 		runningIndex++
@@ -233,10 +233,10 @@ export const executeBatch = async (batch: Batch): Promise<BatchResult> => {
 
 		try {
 			if (lastResult && isCRUDTask(task)) {
-				let modRes: TaskResourceParam | undefined
+				let modRes: PrepareResourceResult
 				try {
-					if (task.resource && task.prepareResource) modRes = task.prepareResource(task.resource, lastResult)
-					else modRes = resolvePlaceholders(task.resource, lastResult)
+					if (task.resource && task.prepareResource) modRes = await task.prepareResource(task.resource, lastResult)
+					else modRes = await resolvePlaceholders(task.resource, lastResult)
 				} catch (e: any) { modRes = undefined }
 				if (modRes) task.resource = modRes
 			}

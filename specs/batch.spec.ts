@@ -4,7 +4,7 @@ import { currentAccessToken, initClient, initialize, cl } from '../test/common'
 import { executeBatch } from '../lib/cjs'
 import type { Batch, InvalidTokenError, Task, TaskResult } from '../lib/cjs'
 import type { Resource } from '@commercelayer/sdk/lib/cjs/resource'
-import { TaskResourceParam, TaskResourceResult } from '../lib/cjs/batch'
+import type { TaskResourceParam, TaskResourceResult } from '../lib/cjs/batch'
 
 
 
@@ -213,7 +213,6 @@ describe('sdk-utils.batch suite', () => {
 	it('batch.successCallback', async () => {
 
 		const tasksNumber = 3
-		const errorTask = 2
 		const tasks: Task[] = []
 
 		function successCallback(output: TaskResult, task: Task): void {
@@ -249,46 +248,81 @@ describe('sdk-utils.batch suite', () => {
 
 	it('batch.prepareResource', async () => {
 
-		const tasksNumber = 3
-		const tasks: Task[] = []
+		const fixedId = 'nBrBhrAmqn'
+		let retrieveId: string = ''
+		let listId: string | undefined = ''
 
-		let globalId: string = ''
+		const prepareResource = (res: TaskResourceParam, last: TaskResourceResult): TaskResourceParam => {
+			const isList = Array.isArray(last)
+			const id =isList? last.first()?.id : last.id
+			const mod = {
+				...res,
+				id,
+				reference: id,
+				reference_origin: 'list_' + isList
+			}
+			return mod
+		}
+
+		const callback = (output: TaskResult, task: Task): void => {
+			if (output) {
+				if (Array.isArray(output)) listId = output.first()?.id
+				else retrieveId = (output as Resource).id
+			}
+		}
+
+
+		const tasks: Task[] = []
 
 		tasks.push({
 			operation: 'create',
 			resourceType: 'customers',
 			resource: {
-				email: `batc-customer-${Date.now()}@sdk-test.org`
-			}
+				email: `batch-customer-${Date.now()}@sdk-test.org`
+			},
+			onSuccess: { callback }
 		})
 
 		tasks.push({
 			operation: 'update',
 			resourceType: 'customers',
-			resource: { id: 'fake-id' },
-			prepareResource: (res: TaskResourceParam, last: TaskResourceResult): TaskResourceParam => {
-				const r = res as CustomerUpdate
-				const id = Array.isArray(last)? (last.length? last[0] : undefined) : last.id
-				const mod = {
-					...r,
-					id,
-					reference: id
-				}
-				return mod
-			},
-			onSuccess: {
-				callback: (output: TaskResult, task: Task): void => {
-					if (output) globalId = (output as Resource).id
-				}
+			resource: { id: 'take-id-from-last-retrieve-result' },
+			prepareResource
+		})
+
+		tasks.push({
+			operation: 'list',
+			resourceType: 'customers',
+			params: { sort: { created_at: 'asc' } },
+			onSuccess: { callback }
+		})
+
+		tasks.push({
+			operation: 'update',
+			resourceType: 'customers',
+			resource: { id: 'take-id-from-last-list-result' },
+			prepareResource
+		})
+
+		tasks.push({
+			operation: 'update',
+			resourceType: 'customers',
+			resource: { id: fixedId },
+			prepareResource: (res: TaskResourceParam, last: TaskResourceResult) => {
+				(res as Resource).reference = (last as Resource).id
 			}
 		})
 
 		await executeBatch({ tasks })
 
-		const customer = await cl.customers.retrieve(globalId)
-		expect(customer.reference).toBe(globalId)
+		const c1 = await cl.customers.retrieve(retrieveId)
+		expect(c1.reference).toBe(retrieveId)
 
-		console.log(globalId)
+		const c2 = await cl.customers.retrieve(listId)
+		expect(c2.reference).toBe(listId)
+
+		const c3 = await cl.customers.retrieve(fixedId)
+		expect(c3.reference = c2.id)
 
 	})
 
