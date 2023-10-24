@@ -4,8 +4,14 @@ import { config } from "./config"
 import type { QueryFilter } from "@commercelayer/sdk/lib/cjs/query"
 import { type Task, type TemplateTask } from "./batch"
 import type { CleanupCreate, ExportCreate, ImportCreate } from "@commercelayer/sdk"
+import { sleep } from "./common"
+import { computeRateLimits, headerRateLimits } from "./rate_limit"
 
 
+export type JobOptions = {
+	size?: number
+	delay?: number
+}
 
 export type JobOutputType = 'exports' | 'cleanups'
 export type JobInputType = 'imports'
@@ -17,11 +23,12 @@ export type ResourceJobInput = ImportCreate
 
 
 
-export const splitInputJob = <JI extends ResourceJobInput>(job: JI, jobType: JobInputType, jobSize?: number): JI[] => {
+export const splitInputJob = <JI extends ResourceJobInput>(job: JI, jobType: JobInputType, options?: JobOptions): JI[] => {
 
 	const jobs: JI[] = []
 	if (!job?.inputs || (job.inputs.length === 0)) return jobs
 
+	const jobSize = options?.size
 	const jobMaxSize = jobSize ? Math.min(Math.max(1, jobSize), config[jobType].max_size) : config[jobType].max_size
 
 	const allInputs = job.inputs
@@ -39,13 +46,25 @@ export const splitInputJob = <JI extends ResourceJobInput>(job: JI, jobType: Job
 }
 
 
-export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobType: JobOutputType, jobSize?: number): Promise<JO[]> => {
+export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobType: JobOutputType, options?:JobOptions): Promise<JO[]> => {
 
 	const cl = CommerceLayerUtils().sdk
+	const rrr = cl.addRawResponseReader({ headers: true })
 	const resSdk = cl[job.resource_type as ListableResourceType]
+	const jobSize = options?.size
 	const jobMaxSize = jobSize ? Math.min(Math.max(1, jobSize), config[jobType].max_size) : config[jobType].max_size
+	let delay = options?.delay
 
 	const totRecords = await resSdk.count({ filters: job.filters as QueryFilter, pageSize: 1, pageNumber: 1 })
+
+	// Rate limit
+	if (!delay) {
+		const rateLimits = headerRateLimits(rrr.headers)
+		const rateLimit = computeRateLimits(rateLimits, jobType)
+		delay = rateLimit.delay
+	}
+	
+	cl.removeRawResponseReader(rrr)
 
 	const totJobs = Math.ceil(totRecords / jobMaxSize)
 
@@ -65,16 +84,19 @@ export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobT
 		}
 		if (!jobCreate.filters) jobCreate.filters = {}
 
+		const pageSize = 1
 		const curJobRecords = Math.min(jobMaxSize, totRecords - (jobMaxSize * curJob))
-		const curJobPages = Math.ceil(curJobRecords / config.api.page_max_size)
+		const curJobPages = Math.ceil(curJobRecords / pageSize)
 		jobPage += curJobPages
 
-		const curJobLastPage = await resSdk.list({ filters: job.filters as QueryFilter, pageSize: config.api.page_max_size, pageNumber: jobPage, sort: { id: 'asc' } })
+		await sleep(delay)
+		const curJobLastPage = await resSdk.list({ filters: job.filters as QueryFilter, pageSize, pageNumber: jobPage, sort: { id: 'asc' } })
 
 		stopId = curJobLastPage.last()?.id
-
+		
 		if (startId) jobCreate.filters.id_gt = startId
 		if ((curJob + 1 < totJobs)) jobCreate.filters.id_lteq = stopId
+
 
 		if (!jobCreate.metadata) jobCreate.metadata = {}
 		jobCreate.metadata.progress_number = `${curJob + 1}/${totJobs}`
