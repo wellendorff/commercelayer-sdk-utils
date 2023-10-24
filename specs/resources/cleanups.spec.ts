@@ -43,13 +43,13 @@ describe('sdk-utils.cleanups suite', () => {
 				expect(clp.filters['id_gt']).toBeUndefined()
 				expect(clp.filters['id_lteq']).toBeDefined()
 			} else {
-				if (i < cleanups.length-1 ){
+				if (i < cleanups.length-1) {
 					const clpPre = cleanups[i-1]
 					if (!clpPre.filters) clpPre.filters = {}
 					expect(clp.filters['id_gt']).toBe(clpPre.filters['id_lteq'])
 					expect(clp.filters['id_gt']).not.toBe(clp.filters['id_lteq'])
 				} else
-				if (i === cleanups.length-1 ) {
+				if (i === cleanups.length-1) {
 					const clpPre = cleanups[i-1]
 					if (!clpPre.filters) clpPre.filters = {}
 					expect(clp.filters['id_gt']).toBe(clpPre.filters['id_lteq'])
