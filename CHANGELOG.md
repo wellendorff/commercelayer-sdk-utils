@@ -1,3 +1,18 @@
+# [1.3.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.2.0...v1.3.0) (2023-10-24)
+
+
+### Bug Fixes
+
+* **core:** fix job split algo ([404684b](https://github.com/commercelayer/commercelayer-sdk-utils/commit/404684b86d1ad0a5ffe920ae366c4f4101fe15fb))
+* **core:** fix PrepareResourceCallback ([e7087e3](https://github.com/commercelayer/commercelayer-sdk-utils/commit/e7087e343704eac851f5fece0b2d2cefb3923252))
+* **test:** fix specs imports ([477a499](https://github.com/commercelayer/commercelayer-sdk-utils/commit/477a499d0416a09b659dc81d695a430b78b289f5))
+
+
+### Features
+
+* add imports.split and import.toBatchTasks functions ([#8](https://github.com/commercelayer/commercelayer-sdk-utils/issues/8)) ([8216bd5](https://github.com/commercelayer/commercelayer-sdk-utils/commit/8216bd5072f690acafcb76f8dded1d77fd3692aa))
+* add Task.prepareResource callback function ([bb98f03](https://github.com/commercelayer/commercelayer-sdk-utils/commit/bb98f035ba7fe2259cac40ff6b843827568893f2))
+
 # [1.2.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.1.1...v1.2.0) (2023-10-17)
 
 
