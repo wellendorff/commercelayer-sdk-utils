@@ -1,6 +1,6 @@
 import type { Cleanup, CleanupCreate } from "@commercelayer/sdk"
 import type { Task, TemplateTask } from "../batch"
-import { type ResourceJobOutput, splitOutputJob, jobsToBatchTasks } from "../jobs"
+import { type ResourceJobOutput, splitOutputJob, jobsToBatchTasks, type JobOptions } from "../jobs"
 
 
 
@@ -8,8 +8,8 @@ export type CleanupResult = Cleanup
 
 
 
-export const splitCLeanup = async (clp: CleanupCreate, clpSize?: number): Promise<CleanupCreate[]> => {
-	return splitOutputJob<CleanupCreate>(clp, 'cleanups', clpSize)
+export const splitCLeanup = async (clp: CleanupCreate, options?: JobOptions): Promise<CleanupCreate[]> => {
+	return splitOutputJob<CleanupCreate>(clp, 'cleanups', options)
 }
 
 

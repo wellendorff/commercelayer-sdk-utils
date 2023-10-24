@@ -1,6 +1,6 @@
 import type { Export, ExportCreate } from "@commercelayer/sdk"
 import type { Task, TemplateTask } from "../batch"
-import { type ResourceJobOutput, splitOutputJob, jobsToBatchTasks } from "../jobs"
+import { type ResourceJobOutput, splitOutputJob, jobsToBatchTasks, type JobOptions } from "../jobs"
 
 
 
@@ -8,8 +8,8 @@ export type ExportResult = Export
 
 
 
-export const splitExport = async (exp: ExportCreate, expSize?: number): Promise<ExportCreate[]> => {
-	return splitOutputJob<ExportCreate>(exp, 'exports', expSize)
+export const splitExport = async (exp: ExportCreate, options?: JobOptions): Promise<ExportCreate[]> => {
+	return splitOutputJob<ExportCreate>(exp, 'exports', options)
 }
 
 

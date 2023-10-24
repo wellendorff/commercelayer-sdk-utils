@@ -1,6 +1,6 @@
 
 import type { Resource } from '@commercelayer/sdk/lib/cjs/resource'
-import { denormalizePayload } from '../../lib/cjs'
+import { denormalizePayload } from '../../src'
 
 
 
