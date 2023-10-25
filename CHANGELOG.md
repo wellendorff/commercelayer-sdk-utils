@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.3.1...v1.4.0) (2023-10-25)
+
+
+### Features
+
+* **core:** optional groupId and job metadata ([b6004ae](https://github.com/commercelayer/commercelayer-sdk-utils/commit/b6004ae980276668d617214771af47337dad4629))
+
 ## [1.3.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.3.0...v1.3.1) (2023-10-25)
 
 
