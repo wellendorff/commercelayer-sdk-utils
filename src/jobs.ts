@@ -12,7 +12,10 @@ export type JobOptions = {
 	size?: number			// The output size of the jobs
 	delay?: number			// Delay to use between requests if made in conjunction with other external calls
 	queueLength?: number	// Max length of remote queue of jobs
+	noGroupId?: boolean		// groupId won't be added to generated resources
+	noMetadata?: boolean	// Job metadata won't be added to generated resources
 }
+
 
 export type JobOutputType = 'exports' | 'cleanups'
 export type JobInputType = 'imports'
@@ -32,7 +35,7 @@ export const splitInputJob = <JI extends ResourceJobInput>(job: JI, jobType: Job
 
 	const jobs: JI[] = []
 	if (!job?.inputs || (job.inputs.length === 0)) return jobs
-	const groupId = groupUID()
+	const groupId = options?.noGroupId? undefined : groupUID()
 
 	const jobSize = options?.size
 	const jobMaxSize = jobSize ? Math.min(Math.max(1, jobSize), config[jobType].max_size) : config[jobType].max_size
@@ -47,13 +50,16 @@ export const splitInputJob = <JI extends ResourceJobInput>(job: JI, jobType: Job
 
 		const jobCreate: JI = {
 			...job,
-			reference: `${groupId}-${jobNum}`,
 			inputs: allInputs.splice(0, jobMaxSize),
 			metadata: { ...job.metadata }
 		}
-		if (!jobCreate.metadata) jobCreate.metadata = {}
-		jobCreate.metadata.progress_number = `${jobNum}/${totJobs}`
-		jobCreate.metadata.group_id = groupId
+		if (groupId) jobCreate.reference = `${groupId}-${jobNum}`
+		// Job metadata
+		if (!options?.noMetadata) {
+			if (!jobCreate.metadata) jobCreate.metadata = {}
+			jobCreate.metadata.progress_number = `${jobNum}/${totJobs}`
+			if (groupId) jobCreate.metadata.group_id = groupId
+		}
 
 		jobs.push(jobCreate)
 
@@ -88,7 +94,7 @@ export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobT
 
 
 	const jobs: JO[] = []
-	const groupId = groupUID()
+	const groupId = options?.noGroupId? undefined : groupUID()
 
 	let startId = null
 	let stopId = null
@@ -101,14 +107,17 @@ export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobT
 
 		const jobCreate: JO = {
 			...job,
-			reference: `${groupId}-${jobNum}`,
 			filters: { ...job.filters },
 			metadata: { ...job.metadata }
 		}
+		if (groupId) jobCreate.reference = `${groupId}-${jobNum}`
 		if (!jobCreate.filters) jobCreate.filters = {}
-		if (!jobCreate.metadata) jobCreate.metadata = {}
-		jobCreate.metadata.progress_number = `${jobNum}/${totJobs}`
-		jobCreate.metadata.group_id = groupId
+		// Job metadata
+		if (!options?.noMetadata) {
+			if (!jobCreate.metadata) jobCreate.metadata = {}
+			jobCreate.metadata.progress_number = `${jobNum}/${totJobs}`
+			if (groupId) jobCreate.metadata.group_id = groupId
+		}
 
 		const pageSize = 1
 		const curJobRecords = Math.min(jobMaxSize, totRecords - (jobMaxSize * curJob))
