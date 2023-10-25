@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.3.0...v1.3.1) (2023-10-25)
+
+
+### Bug Fixes
+
+* **core:** fix release config ([1ca0018](https://github.com/commercelayer/commercelayer-sdk-utils/commit/1ca0018340ab481ff93b9b4113d0e34ef7b4c4e5))
+
 # [1.3.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.2.0...v1.3.0) (2023-10-24)
 
 
