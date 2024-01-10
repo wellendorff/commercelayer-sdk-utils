@@ -200,6 +200,7 @@ export const executeJobs = async <J extends ResourceJobResult>(jobs: ResourceJob
 
 		// Create job if there are slots available
 		while ((countRunning(results) < queueMax) && (results.length < jobs.length)) {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			const job = await resSdk.create(jobs[results.length] as any)
 			results.push(job as J)
 			if (delay < 0) {

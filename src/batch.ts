@@ -22,7 +22,7 @@ export type TaskResult = TaskResourceResult | undefined
 export class InvalidTokenError extends Error {
 	readonly cause: ApiError
 	constructor(error: ApiError) {
-		super(error.first().detail)
+		super(error.first().detail as string)
 		this.cause = error
 	}
 }
@@ -117,7 +117,7 @@ export type Batch = {
 
 
 const isCRUDTask = (task: any): task is CRUDTask => {
-	return task.resource && ['create', 'retrieve', 'update', 'delete'].includes(task.operation)
+	return task.resource && ['create', 'retrieve', 'update', 'delete'].includes(task.operation as string)
 }
 
 
