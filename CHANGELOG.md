@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.4.0...v1.4.1) (2024-01-10)
+
+
+### Bug Fixes
+
+* update dependencies and fix lint errors ([c794f84](https://github.com/commercelayer/commercelayer-sdk-utils/commit/c794f84f44bd25788375f7b971b9a7edfa5f688e))
+
 # [1.4.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.3.1...v1.4.0) (2023-10-25)
 
 
