@@ -1,3 +1,5 @@
+import type { BinaryToTextEncoding } from "crypto"
+
 
 export const config = {
 	api: {
@@ -14,5 +16,13 @@ export const config = {
 	imports: {
 		max_size: 10_000,
 		queue_size: 10
+	},
+	webhooks: {
+		signature: {
+			algorithm: 'sha256',
+			digest: 'base64' as BinaryToTextEncoding,
+			header: 'x-commercelayer-signature'
+		},
+		topic: 'x-commercelayer-topic'
 	}
 }
