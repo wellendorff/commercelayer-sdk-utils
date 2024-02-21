@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.4.1...v1.5.0) (2024-02-21)
+
+
+### Features
+
+* add webhook signature check feature ([174d5ce](https://github.com/commercelayer/commercelayer-sdk-utils/commit/174d5ce4a77e1b88d4acef43482719be66e4f77d))
+
 ## [1.4.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.4.0...v1.4.1) (2024-01-10)
 
 
