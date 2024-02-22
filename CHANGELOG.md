@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.5.0...v1.6.0) (2024-02-22)
+
+
+### Features
+
+* add webhook payload parsers ([8581bce](https://github.com/commercelayer/commercelayer-sdk-utils/commit/8581bceae1b2ab9ea7ac667c4e2b662aa71d40a2))
+
 # [1.5.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.4.1...v1.5.0) (2024-02-21)
 
 
