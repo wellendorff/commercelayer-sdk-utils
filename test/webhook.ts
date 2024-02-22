@@ -51,6 +51,10 @@ const test = async (param: string): Promise<void> => {
 	if (param === 'check') {
 		const checkStatus = webhooks.checkSignature(BODY, HEADERS, SECRET)
 		console.log(checkStatus)
+		if (checkStatus.ok) {
+			const customer = webhooks.parse.customers(BODY)
+			console.log(customer)
+		}
 	}
 
 
