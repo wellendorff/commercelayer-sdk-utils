@@ -1,3 +1,20 @@
+# [2.0.0-beta.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.1...v2.0.0-beta.1) (2024-03-12)
+
+
+### Bug Fixes
+
+* update dependencies ([e920127](https://github.com/commercelayer/commercelayer-sdk-utils/commit/e9201275e617d0cae417f3a740fe6d422d71f7a2))
+
+
+### Performance Improvements
+
+* remove support for node.js <20.x ([81cffe2](https://github.com/commercelayer/commercelayer-sdk-utils/commit/81cffe27da49a2660397c80efead570386325fcb))
+
+
+### BREAKING CHANGES
+
+* emove support for node.js <20.x
+
 ## [1.6.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.0...v1.6.1) (2024-03-12)
 
 
