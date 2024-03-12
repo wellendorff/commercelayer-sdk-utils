@@ -54,7 +54,7 @@
     "typescript": "^5.4.2"
   },
   "peerDependencies": {
-    "@commercelayer/sdk": "^5"
+    "@commercelayer/sdk": "^6.0.0-alfa"
   },
   "repository": "github:commercelayer/commercelayer-sdk-utils",
   "publishConfig": {

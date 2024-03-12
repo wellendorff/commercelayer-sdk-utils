@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@commercelayer/sdk':
-    specifier: ^5
-    version: 5.34.2
+    specifier: ^6.0.0-alfa
+    version: 6.0.0-alfa.1
 
 devDependencies:
   '@babel/preset-env':
@@ -1355,9 +1355,9 @@ packages:
       tslib: 2.6.2
     dev: true
 
-  /@commercelayer/sdk@5.34.2:
-    resolution: {integrity: sha512-BQoExHJzqr8EVA1Rb9K6TsNxZrLG9uly/zf84nbVcliClhNxRdVPJz78IMFkXiymH3YV3JvAGgI/X4ctVhk/Aw==}
-    engines: {node: '>=16 || ^14.17'}
+  /@commercelayer/sdk@6.0.0-alfa.1:
+    resolution: {integrity: sha512-KljHcmgCfL54Q+MZnicuZG1EOyd83O6TejmIy3gNAdzop95WHw6VmElSfl/gFPaaDKLSMZHaCYw4H5tuNabWyQ==}
+    engines: {node: '>=20'}
     dependencies:
       axios: 1.6.7
     transitivePeerDependencies:
