@@ -1,3 +1,11 @@
+## [1.6.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.0...v1.6.1) (2024-03-12)
+
+
+### Bug Fixes
+
+* fix circular inclusion error ([d3054b9](https://github.com/commercelayer/commercelayer-sdk-utils/commit/d3054b9df3babd53826c20b172e666b1385c349a))
+* fix documentation ([9c1fce8](https://github.com/commercelayer/commercelayer-sdk-utils/commit/9c1fce8e9071b92e92b1ede6e8fffcfe898e98bf))
+
 # [1.6.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.5.0...v1.6.0) (2024-02-22)
 
 
