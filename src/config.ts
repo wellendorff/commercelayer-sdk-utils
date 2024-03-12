@@ -23,6 +23,9 @@ export const config = {
 			digest: 'base64' as BinaryToTextEncoding,
 			header: 'x-commercelayer-signature'
 		},
-		topic: 'x-commercelayer-topic'
+		topic: 'x-commercelayer-topic',
+		jsonapi: {
+			maxResourceIncluded: 2
+		}
 	}
 }

@@ -53,7 +53,7 @@ const findIncluded = (rel: ResourceIdentifierObject, included: Included = []): R
 }
 
 
-const denormalizeResource = <T extends ResourceType>(res: any, included?: Included): T => {
+const denormalizeResource = <T extends ResourceType>(res: any, included?: Included, chain: ResourceIdentifierObject[] = []): T => {
 
 	if (!res) return res
 
@@ -66,8 +66,9 @@ const denormalizeResource = <T extends ResourceType>(res: any, included?: Includ
 	if (res.relationships) Object.keys(res.relationships as object).forEach(key => {
 		const rel: ResourceIdentifierObject = res.relationships[key].data
 		if (rel) {
-			if (Array.isArray(rel)) resource[key] = rel.map((r: ResourceIdentifierObject) => denormalizeResource<ResourceType>(findIncluded(r, included), included))
-			else resource[key] = denormalizeResource<ResourceType>(findIncluded(rel, included), included)
+			if (chain.filter(r => (r.id === rel.id) && (r.type === rel.type)).length >= config.webhooks.jsonapi.maxResourceIncluded) resource[key] = rel
+			if (Array.isArray(rel)) resource[key] = rel.map((r: ResourceIdentifierObject) => denormalizeResource<ResourceType>(findIncluded(r, included), included, [...chain, r]))
+			else resource[key] = denormalizeResource<ResourceType>(findIncluded(rel, included), included, [...chain, rel] )
 		} else if (rel === null) resource[key] = null
 	})
 
