@@ -1,3 +1,10 @@
+# [2.0.0-beta.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2024-03-22)
+
+
+### Bug Fixes
+
+* fix raw response reader ([0cf97ca](https://github.com/commercelayer/commercelayer-sdk-utils/commit/0cf97ca927aee8988e5c80ac63fa0f3a6483f3b5))
+
 # [2.0.0-beta.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.1...v2.0.0-beta.1) (2024-03-12)
 
 
