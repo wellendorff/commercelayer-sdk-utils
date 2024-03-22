@@ -88,7 +88,7 @@ export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobT
 		delay = rateLimit.delay
 	}
 	
-	cl.removeRawResponseReader(rrr)
+	cl.removeRawResponseReader()
 
 	const totJobs = Math.ceil(totRecords / jobMaxSize)
 
@@ -207,7 +207,7 @@ export const executeJobs = async <J extends ResourceJobResult>(jobs: ResourceJob
 				const rateLimits = headerRateLimits(rrr.headers)
 				const rateLimit = computeRateLimits(rateLimits, jobType)
 				delay = rateLimit.delay
-				cl.removeRawResponseReader(rrr)
+				cl.removeRawResponseReader()
 			} else await sleep(delay)
 		}
 

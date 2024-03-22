@@ -41,7 +41,7 @@ export const retrieveAll = async <R extends Resource>(resourceType: ListableReso
 		if (!rateLimit) try {
 			const rateLimits = headerRateLimits(rrr.headers)
 			rateLimit = computeRateLimits(rateLimits, resourceType, result.pageCount)
-			if (rateLimit) cl.removeRawResponseReader(rrr)
+			if (rateLimit) cl.removeRawResponseReader()
 		} catch (error: any) {}
 
 	} while ( result.length < result.recordCount )
@@ -92,7 +92,7 @@ export const updateAll = async <U extends Omit<ResourceUpdate, 'id'>>(resourceTy
 		if (!rateLimit) try {
 			const rateLimits = headerRateLimits(rrr.headers)
 			rateLimit = computeRateLimits(rateLimits, resourceType, (result.total + page.pageCount))
-			if (rateLimit) cl.removeRawResponseReader(rrr)
+			if (rateLimit) cl.removeRawResponseReader()
 		} catch (error: any) {}
 
 

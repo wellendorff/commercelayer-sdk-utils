@@ -260,7 +260,7 @@ export const executeBatch = async (batch: Batch): Promise<BatchResult> => {
 
 	}
 
-	if (cl && rrr) cl.removeRawResponseReader(rrr)
+	if (cl && rrr) cl.removeRawResponseReader()
 
 	result.finishedAt = new Date()
 
