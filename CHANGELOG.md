@@ -1,3 +1,10 @@
+## [1.6.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.1...v1.6.2) (2024-03-22)
+
+
+### Bug Fixes
+
+* fix esm config ([0900347](https://github.com/commercelayer/commercelayer-sdk-utils/commit/09003473fd7121cbfb7678c5b1d01ade3f854745))
+
 ## [1.6.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.0...v1.6.1) (2024-03-12)
 
 
