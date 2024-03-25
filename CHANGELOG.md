@@ -1,3 +1,10 @@
+## [1.6.4](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.3...v1.6.4) (2024-03-25)
+
+
+### Bug Fixes
+
+* fix package config ([90252df](https://github.com/commercelayer/commercelayer-sdk-utils/commit/90252dfcfbe174959dd1b5da8f4b22c7cffdf51d))
+
 ## [1.6.3](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.2...v1.6.3) (2024-03-25)
 
 
