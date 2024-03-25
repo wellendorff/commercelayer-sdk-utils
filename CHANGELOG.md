@@ -1,3 +1,11 @@
+## [1.6.3](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.2...v1.6.3) (2024-03-25)
+
+
+### Bug Fixes
+
+* fix esm export ([2d9cf7c](https://github.com/commercelayer/commercelayer-sdk-utils/commit/2d9cf7ced27cfbff3cef5551d4f5a8f41b1ff0d3))
+* fix test authentication ([ad6e70a](https://github.com/commercelayer/commercelayer-sdk-utils/commit/ad6e70aaa4ae5cdf1e9bec03d1c1b5375c08b201))
+
 ## [1.6.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.1...v1.6.2) (2024-03-22)
 
 
