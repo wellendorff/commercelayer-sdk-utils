@@ -8,7 +8,6 @@
     "lint": "eslint ./src --ext .ts",
     "lintspec": "eslint ./specs/ --ext .spec.ts",
     "build": "tsup",
-    "prepare": "pnpm build",
     "test": "jest",
     "test-local": "tsx test/spot.ts",
     "test-webhook": "tsx test/webhook.ts",
