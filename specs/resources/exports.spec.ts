@@ -135,7 +135,7 @@ describe('sdk-utils.exports suite', () => {
 			expect(['completed', 'interrupted']).toContain(exp.status)
 		}
 
-		console.log(exports[0].metadata?.group_id)
+		// console.log(exports[0].metadata?.group_id)
 
 	})
 
