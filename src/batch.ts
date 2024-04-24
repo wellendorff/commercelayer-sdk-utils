@@ -1,6 +1,4 @@
-import type { ApiError, CommerceLayerClient, QueryParams, QueryParamsList, SdkError } from "@commercelayer/sdk"
-import type { CreatableResourceType, DeletableResourceType, ListableResourceType, ResourceTypeLock, RetrievableResourceType, UpdatableResourceType } from "@commercelayer/sdk/lib/cjs/api"
-import type { ListResponse, Resource, ResourceCreate, ResourceId, ResourceUpdate, ResourcesConfig } from "@commercelayer/sdk/lib/cjs/resource"
+import type { ListResponse, Resource, ResourceCreate, ResourceId, ResourceUpdate, ResourcesConfig, CreatableResourceType, DeletableResourceType, ListableResourceType, ResourceTypeLock, RetrievableResourceType, UpdatableResourceType, ApiError, SdkError, QueryParamsList, QueryParams, CommerceLayerClient } from "@commercelayer/sdk"
 import CommerceLayerUtils from './init'
 import { computeRateLimits, headerRateLimits, type RateLimitInfo } from "./rate_limit"
 import { invalidToken, sleep } from "./common"
@@ -137,7 +135,7 @@ const taskRateLimit = (batch: Batch, task: Task, info?: RateLimitInfo): RateLimi
 
 const executeTask = async (cl: CommerceLayerClient, task: Task, options: BatchOptions = {}): Promise<TaskResult> => {
 
-	const client = cl[task.resourceType]
+	const client = cl[task.resourceType as keyof CommerceLayerClient]
 	let out: TaskResult
 
 	try {

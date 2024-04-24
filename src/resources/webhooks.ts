@@ -1,6 +1,5 @@
-import type { Address, Authorization, Bundle, BuyXPayYPromotion, Capture, Cleanup, Coupon, Customer, CustomerAddress, CustomerPasswordReset, CustomerSubscription, Export, ExternalPromotion, FixedAmountPromotion, FixedPricePromotion, FreeGiftPromotion, FreeShippingPromotion, GiftCard, Import, InStockSubscription, LineItem, LineItemOption, Order, OrderCopy, OrderSubscription, Parcel, PercentageDiscountPromotion, PriceFrequencyTier, PriceVolumeTier, Promotion, RecurringOrderCopy, Refund, Return, Shipment, ShippingWeightTier, Sku, SkuOption, StockTransfer, Transaction, Void } from "@commercelayer/sdk"
+import type { Resource, ResourceType, Address, Authorization, Bundle, BuyXPayYPromotion, Capture, Cleanup, Coupon, Customer, CustomerAddress, CustomerPasswordReset, CustomerSubscription, Export, ExternalPromotion, FixedAmountPromotion, FixedPricePromotion, FreeGiftPromotion, FreeShippingPromotion, GiftCard, Import, InStockSubscription, LineItem, LineItemOption, Order, OrderCopy, OrderSubscription, Parcel, PercentageDiscountPromotion, PriceFrequencyTier, PriceVolumeTier, Promotion, RecurringOrderCopy, Refund, Return, Shipment, ShippingWeightTier, Sku, SkuOption, StockTransfer, Transaction, Void } from "@commercelayer/sdk"
 import { CommerceLayerStatic } from '@commercelayer/sdk'
-import type { Resource, ResourceType } from "@commercelayer/sdk/lib/cjs/resource"
 import type { DocWithData, Included, ResourceIdentifierObject, ResourceObject } from 'jsonapi-typescript'
 import crypto from 'crypto'
 import { config } from "../config"
