@@ -1,3 +1,11 @@
+# [2.0.0-beta.3](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2024-04-24)
+
+
+### Bug Fixes
+
+* fix specs ([d8e6418](https://github.com/commercelayer/commercelayer-sdk-utils/commit/d8e6418535ab1f4d262aa72ac3e2e045a1189103))
+* fix type errors ([b90b723](https://github.com/commercelayer/commercelayer-sdk-utils/commit/b90b723cc8ba738a5a38898002c22fb70ca3a8c6))
+
 # [2.0.0-beta.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2024-03-22)
 
 
