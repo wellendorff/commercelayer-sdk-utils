@@ -47,11 +47,11 @@
     "jsonapi-typescript": "^0.1.3",
     "semantic-release": "^22.0.12",
     "tsup": "^8.0.2",
-    "tsx": "^4.7.2",
+    "tsx": "^4.7.3",
     "typescript": "^5.4.5"
   },
   "peerDependencies": {
-    "@commercelayer/sdk": "prerelease"
+    "@commercelayer/sdk": "^6.0.0"
   },
   "repository": "github:commercelayer/commercelayer-sdk-utils",
   "publishConfig": {
