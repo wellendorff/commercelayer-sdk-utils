@@ -1,7 +1,5 @@
-import type { ApiError, QueryParamsList } from "@commercelayer/sdk"
+import type { ApiError, CommerceLayerClient, QueryParamsList, ListResponse, Resource, ResourceUpdate, ListableResourceType, UpdatableResourceType, ApiResource } from "@commercelayer/sdk"
 import CommerceLayerUtils from "./init"
-import type { ListableResourceType, UpdatableResourceType } from "@commercelayer/sdk/lib/cjs/api"
-import type { ListResponse, Resource, ResourceUpdate } from "@commercelayer/sdk/lib/cjs/resource"
 import { config } from "./config"
 import { type RateLimitInfo, computeRateLimits, headerRateLimits } from "./rate_limit"
 import { sleep } from "./common"
@@ -13,7 +11,7 @@ type AllParams = Omit<QueryParamsList, 'pageSize' | 'pageNumber' | 'sort'>
 export const retrieveAll = async <R extends Resource>(resourceType: ListableResourceType, params?: AllParams): Promise<ListResponse<R>> => {
 
 	const cl = CommerceLayerUtils().sdk
-	const client = cl[resourceType]
+	const client = cl[resourceType as keyof CommerceLayerClient]
 	const rrr = cl.addRawResponseReader({ headers: true })
 
 	let result: ListResponse<R> | null = null
@@ -32,7 +30,7 @@ export const retrieveAll = async <R extends Resource>(resourceType: ListableReso
 
 		if (rateLimit) await sleep(rateLimit.delay)
 
-		const page = await client.list(allParams) as ListResponse<R>
+		const page = await (client as ApiResource<Resource>).list(allParams) as ListResponse<R>
 		if (result === null) result = page
 		else result.push(...page)
 
@@ -40,8 +38,8 @@ export const retrieveAll = async <R extends Resource>(resourceType: ListableReso
 
 		if (!rateLimit) try {
 			const rateLimits = headerRateLimits(rrr.headers)
-			rateLimit = computeRateLimits(rateLimits, resourceType, result.pageCount)
-			if (rateLimit) cl.removeRawResponseReader(rrr)
+			rateLimit = computeRateLimits(rateLimits, resourceType as string, result.pageCount)
+			if (rateLimit) cl.removeRawResponseReader()
 		} catch (error: any) {}
 
 	} while ( result.length < result.recordCount )
@@ -68,7 +66,7 @@ type UpdateResult = {
 export const updateAll = async <U extends Omit<ResourceUpdate, 'id'>>(resourceType: UpdatableResourceType, resource: U, params?: AllParams): Promise<UpdateResult> => {
 
 	const cl = CommerceLayerUtils().sdk
-	const client = cl[resourceType]
+	const client = cl[resourceType as keyof CommerceLayerClient] as ApiResource<Resource>
 	const rrr = cl.addRawResponseReader({ headers: true })
 
 	const result: UpdateResult = { total: 0, processed: 0, errors: 0, resources: {} }
@@ -86,13 +84,13 @@ export const updateAll = async <U extends Omit<ResourceUpdate, 'id'>>(resourceTy
 		if (lastId) allParams.filters.id_gt = lastId
 
 		if (rateLimit) await sleep(rateLimit.delay)
-		const page = await client.list(allParams) as ListResponse<Resource>
+		const page = await client.list(allParams)
 		if (!lastId) result.total = page.recordCount
 
 		if (!rateLimit) try {
 			const rateLimits = headerRateLimits(rrr.headers)
 			rateLimit = computeRateLimits(rateLimits, resourceType, (result.total + page.pageCount))
-			if (rateLimit) cl.removeRawResponseReader(rrr)
+			if (rateLimit) cl.removeRawResponseReader()
 		} catch (error: any) {}
 
 

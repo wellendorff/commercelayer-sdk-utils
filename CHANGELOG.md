@@ -1,24 +1,34 @@
-## [1.6.4](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.3...v1.6.4) (2024-03-25)
+# [2.0.0-beta.3](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.0.0-beta.2...v2.0.0-beta.3) (2024-04-24)
 
 
 ### Bug Fixes
 
-* fix package config ([90252df](https://github.com/commercelayer/commercelayer-sdk-utils/commit/90252dfcfbe174959dd1b5da8f4b22c7cffdf51d))
+* fix specs ([d8e6418](https://github.com/commercelayer/commercelayer-sdk-utils/commit/d8e6418535ab1f4d262aa72ac3e2e045a1189103))
+* fix type errors ([b90b723](https://github.com/commercelayer/commercelayer-sdk-utils/commit/b90b723cc8ba738a5a38898002c22fb70ca3a8c6))
 
-## [1.6.3](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.2...v1.6.3) (2024-03-25)
-
-
-### Bug Fixes
-
-* fix esm export ([2d9cf7c](https://github.com/commercelayer/commercelayer-sdk-utils/commit/2d9cf7ced27cfbff3cef5551d4f5a8f41b1ff0d3))
-* fix test authentication ([ad6e70a](https://github.com/commercelayer/commercelayer-sdk-utils/commit/ad6e70aaa4ae5cdf1e9bec03d1c1b5375c08b201))
-
-## [1.6.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.1...v1.6.2) (2024-03-22)
+# [2.0.0-beta.2](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.0.0-beta.1...v2.0.0-beta.2) (2024-03-22)
 
 
 ### Bug Fixes
 
-* fix esm config ([0900347](https://github.com/commercelayer/commercelayer-sdk-utils/commit/09003473fd7121cbfb7678c5b1d01ade3f854745))
+* fix raw response reader ([0cf97ca](https://github.com/commercelayer/commercelayer-sdk-utils/commit/0cf97ca927aee8988e5c80ac63fa0f3a6483f3b5))
+
+# [2.0.0-beta.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.1...v2.0.0-beta.1) (2024-03-12)
+
+
+### Bug Fixes
+
+* update dependencies ([e920127](https://github.com/commercelayer/commercelayer-sdk-utils/commit/e9201275e617d0cae417f3a740fe6d422d71f7a2))
+
+
+### Performance Improvements
+
+* remove support for node.js <20.x ([81cffe2](https://github.com/commercelayer/commercelayer-sdk-utils/commit/81cffe27da49a2660397c80efead570386325fcb))
+
+
+### BREAKING CHANGES
+
+* emove support for node.js <20.x
 
 ## [1.6.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.0...v1.6.1) (2024-03-12)
 

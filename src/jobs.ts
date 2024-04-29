@@ -1,9 +1,7 @@
 import CommerceLayerUtils from "./init"
-import type { ListableResourceType } from "@commercelayer/sdk/lib/cjs/api"
 import { config } from "./config"
-import type { QueryFilter } from "@commercelayer/sdk/lib/cjs/query"
 import { type Task, type TemplateTask } from "./batch"
-import type { Cleanup, CleanupCreate, Export, ExportCreate, Import, ImportCreate } from "@commercelayer/sdk"
+import type { QueryFilter, ListableResourceType, Cleanup, CleanupCreate, Export, ExportCreate, Import, ImportCreate, ApiResource, ListableResource } from "@commercelayer/sdk"
 import { groupUID, sleep } from "./common"
 import { computeRateLimits, headerRateLimits } from "./rate_limit"
 
@@ -70,11 +68,11 @@ export const splitInputJob = <JI extends ResourceJobInput>(job: JI, jobType: Job
 }
 
 
-export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobType: JobOutputType, options?:JobOptions): Promise<JO[]> => {
+export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobType: JobOutputType, options?: JobOptions): Promise<JO[]> => {
 
 	const cl = CommerceLayerUtils().sdk
 	const rrr = cl.addRawResponseReader({ headers: true })
-	const resSdk = cl[job.resource_type as ListableResourceType]
+	const resSdk = cl[job.resource_type as ListableResourceType] as ApiResource<ListableResource>
 	const jobSize = options?.size
 	const jobMaxSize = jobSize ? Math.min(Math.max(1, jobSize), config[jobType].max_size) : config[jobType].max_size
 	let delay = options?.delay
@@ -88,7 +86,7 @@ export const splitOutputJob = async <JO extends ResourceJobOutput>(job: JO, jobT
 		delay = rateLimit.delay
 	}
 	
-	cl.removeRawResponseReader(rrr)
+	cl.removeRawResponseReader()
 
 	const totJobs = Math.ceil(totRecords / jobMaxSize)
 
@@ -207,7 +205,7 @@ export const executeJobs = async <J extends ResourceJobResult>(jobs: ResourceJob
 				const rateLimits = headerRateLimits(rrr.headers)
 				const rateLimit = computeRateLimits(rateLimits, jobType)
 				delay = rateLimit.delay
-				cl.removeRawResponseReader(rrr)
+				cl.removeRawResponseReader()
 			} else await sleep(delay)
 		}
 

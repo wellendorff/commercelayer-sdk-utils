@@ -1,9 +1,10 @@
+import { type QueryPageSize } from "@commercelayer/sdk"
 import type { BinaryToTextEncoding } from "crypto"
 
 
 export const config = {
 	api: {
-		page_max_size: 25
+		page_max_size: 25 as QueryPageSize
 	},
 	exports: {
 		max_size: 10_000,
