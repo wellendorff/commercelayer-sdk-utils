@@ -247,6 +247,9 @@ export const executeBatch = async (batch: Batch): Promise<BatchResult> => {
 				cl.config({ accessToken: newAccessToken })
 				await executeTask(cl, task, batch.options)
 			} else throw err
+		} finally {
+			batch.running = false
+			batch.runningTask = undefined
 		}
 
 		if (!rateLimit) try {
@@ -261,6 +264,7 @@ export const executeBatch = async (batch: Batch): Promise<BatchResult> => {
 	if (cl && rrr) cl.removeRawResponseReader()
 
 	result.finishedAt = new Date()
+
 
 	return result
 
