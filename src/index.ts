@@ -10,6 +10,9 @@ export { all, retrieveAll, updateAll } from './all'
 export { batch, executeBatch } from './batch'
 export type { Batch, BatchOptions, Task, TaskResult, InvalidTokenError } from './batch'
 
+// Util
+export { headerRateLimits } from './rate_limit'
+
 
 // RESOURCES //
 

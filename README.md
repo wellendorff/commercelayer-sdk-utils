@@ -95,7 +95,7 @@ const task: Task = {
     prepareResource: (res: TaskResourceParam, last: TaskResourceResult): TaskResourceParam => {
         return {
           ...res,
-          id: res.id,
+          id: last.id,
           reference: 'new-reference'
         }
       }
