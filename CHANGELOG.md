@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.0.1...v2.1.0) (2024-05-07)
+
+
+### Features
+
+* add headerRateLimits function ([7f6162e](https://github.com/commercelayer/commercelayer-sdk-utils/commit/7f6162ea575852e38df1d0b73cfe15b15d5c12e7))
+
 ## [2.0.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.0.0...v2.0.1) (2024-05-02)
 
 
