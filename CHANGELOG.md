@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v2.0.0...v2.0.1) (2024-05-02)
+
+
+### Bug Fixes
+
+* fix batch running attributes ([2b00c5e](https://github.com/commercelayer/commercelayer-sdk-utils/commit/2b00c5ecab1fa90b0ffbb43929c26aae8af0bd71))
+
 # [2.0.0](https://github.com/commercelayer/commercelayer-sdk-utils/compare/v1.6.4...v2.0.0) (2024-04-29)
 
 
